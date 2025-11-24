@@ -15,21 +15,17 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main extends Application {
-
-    //private final AtomicInteger counter = new AtomicInteger(0);Ny klass
-    private AtomicInteger counter = new AtomicInteger(0);
-    private boolean klockanTickar;
-
-    //Används i båda timer-metoderna
-    private Label rutaVisaTid;
 
     private List<Member> memberList = new ArrayList<>();
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage)  {
+        mainMenuWindow(stage);
+    }
+
+    public void mainMenuWindow(Stage stage) {
 
         stage.setTitle("HUVUDMENY");
 
@@ -41,12 +37,12 @@ public class Main extends Application {
         memberButton.setText("Medlemsformulär");
         memberButton.setPrefSize(230, 60);
         //Nedan är lambda, kolla upp vad exakt som görs i bakgrunden.
-        memberButton.setOnAction(e -> memberForm(stage));
+        memberButton.setOnAction(e -> memberFormWindow(stage));
 
         Button timerButton = new Button();
         timerButton.setText("Tidtagarur");
         timerButton.setPrefSize(230, 60);
-        timerButton.setOnAction(e -> timer(stage));
+        timerButton.setOnAction(e -> timerWindow(stage));
 
         Button quitButton = new Button();
         quitButton.setText("Avsluta");
@@ -63,7 +59,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void memberForm(Stage stage) {
+    public void memberFormWindow(Stage stage) {
 
         stage.setTitle("MEDLEMSFORMULÄR");
 
@@ -140,7 +136,7 @@ public class Main extends Application {
         Button printAllButton = new Button();
         printAllButton.setText("Medlemsregister");
         printAllButton.setPrefSize(115, 40);
-        printAllButton.setOnAction(e -> printMemberRegistry(stage));
+        printAllButton.setOnAction(e -> memberRegistryWindow(stage));
 
         GridPane gridPane = new GridPane();
         gridPane.setVgap(15);
@@ -176,7 +172,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void printMemberRegistry(Stage stage)    {
+    public void memberRegistryWindow(Stage stage)    {
 
         stage.setTitle("MEDLEMSREGISTER");
 
@@ -221,13 +217,13 @@ public class Main extends Application {
             );
         }
 
-        //Skriv hur detta funkar
+        //Skriv hur detta funkar - alltså vad en ScrollPane är.
         ScrollPane scrollPane = new ScrollPane(textFlow);
 
         Button returnToForm = new Button();
         returnToForm.setText("Medlemsformulär");
         returnToForm.setPrefSize(115, 40);
-        returnToForm.setOnAction(e -> memberForm(stage));
+        returnToForm.setOnAction(e -> memberFormWindow(stage));
 
         Button returnToMenu = new Button();
         returnToMenu.setText("Huvudmeny");
@@ -250,8 +246,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    //Vad ska klassen timer heta och vad ska den här sidan heta?
-    public void timer(Stage stage) {
+    public void timerWindow(Stage stage) {
 
         stage.setTitle("TIDTAGARUR");
 
@@ -259,10 +254,11 @@ public class Main extends Application {
         timeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
         //Denna label används också i timer-metoden.
-        rutaVisaTid = new Label();
-        rutaVisaTid.setFont(Font.font("Arial", FontWeight.NORMAL, 24));
+        //Skickar den till konstruktorn i Timer-klassen när skapar objekt nedan.
+        Label showTimeLabel = new Label();
+        showTimeLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 24));
 
-        Timer timer = new Timer(rutaVisaTid);
+        Timer timer = new Timer(showTimeLabel);
 
         Button startTimerButton = new Button();
         startTimerButton.setText("Start");
@@ -285,7 +281,7 @@ public class Main extends Application {
         returnToMenu.setOnAction(e -> start(stage));
 
         HBox hboxTop = new HBox();
-        hboxTop.getChildren().addAll(timeLabel, rutaVisaTid);
+        hboxTop.getChildren().addAll(timeLabel, showTimeLabel);
         hboxTop.setStyle("-fx-padding: 20");
         hboxTop.setAlignment(Pos.BOTTOM_LEFT);
 
@@ -315,76 +311,6 @@ public class Main extends Application {
         launch(args);
     }
 }
-
-
-//    public void clearTimer()    {
-//        klockanTickar = false;
-//        rutaVisaTid.setText("");
-//
-//        //Måste finnas annat sätt än att göra så här?
-//        counter = new AtomicInteger(-1);
-//
-//    }
-//
-//    //Vissa ggr funkar det men andra gånger så backar den
-//    //olika antal sekunder
-//    public void stopTimer() {
-//        klockanTickar = false;
-//    }
-
-//    public void startTimer() {
-//
-//        klockanTickar = true;
-//
-//        Thread worker = new Thread(() -> {
-//
-//            //Nu går den ju till 10 men den ska gå tills trycker på stoppknappen.
-//            //Stopp-knappen måste alltså ha en koppling hit, nåt som bryter loopen.
-//            //Vad ska då styra i < 10?
-//            //Det kanske då inte är en for-loop som ska styra utan ngt annat.
-////            for (int i = 1; i <= 10; i++) {
-////
-////                int time = counter.incrementAndGet();
-////
-////                //Här ska det då visas i timme:minut:sekund
-////                //rutaVisaTid är alltså min label.
-////                //Platform.runLater(() -> rutaVisaTid.setText(String.valueOf(time)));
-////
-////                //LocalTime tidvisare = LocalTime.of(time, 0);
-////                LocalTime tidvisare = LocalTime.ofSecondOfDay(time);
-////                DateTimeFormatter formatteradTidvisare = DateTimeFormatter.ofPattern("HH:mm:ss");
-////                //String formattedDate = tidvisare.format(formatteradTidvisare);
-////
-////                Platform.runLater(() -> rutaVisaTid.setText(formatteradTidvisare.format(tidvisare)));
-////
-////                try {
-////                    Thread.sleep(1000);
-////                } catch (InterruptedException ignored) {
-////                    }
-////            }
-//
-//            //int time = counter.incrementAndGet();
-//            int time = counter.incrementAndGet();
-//
-//            while (klockanTickar) {
-//
-//                LocalTime tidvisare = LocalTime.ofSecondOfDay(time);
-//                DateTimeFormatter formatteradTidvisare = DateTimeFormatter.ofPattern("HH:mm:ss");
-//
-//                Platform.runLater(() -> rutaVisaTid.setText(formatteradTidvisare.format(tidvisare)));
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException ignored) {
-//                    }
-//
-//                time++;
-//            }
-//        });
-//
-//        worker.setDaemon(true);
-//        worker.start();
-//    }
 
 
 
