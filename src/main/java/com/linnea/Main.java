@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main extends Application {
 
-    //private final AtomicInteger counter = new AtomicInteger(0);
+    //private final AtomicInteger counter = new AtomicInteger(0);Ny klass
     private AtomicInteger counter = new AtomicInteger(0);
     private boolean klockanTickar;
 
