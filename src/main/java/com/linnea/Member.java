@@ -63,5 +63,4 @@ public class Member {
     public String toString()  {
         return firstName + " " + lastName + "\n" + phoneNumber + "\n" + addressLine1 + "\n" + addressLine2;
     }
-
 }
