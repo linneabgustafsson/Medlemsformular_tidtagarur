@@ -36,7 +36,6 @@ public class Main extends Application {
         Button memberButton = new Button();
         memberButton.setText("Medlemsformulär");
         memberButton.setPrefSize(230, 60);
-        //Nedan är lambda, kolla upp vad exakt som görs i bakgrunden.
         memberButton.setOnAction(e -> memberFormWindow(stage));
 
         Button timerButton = new Button();
@@ -63,14 +62,12 @@ public class Main extends Application {
 
         stage.setTitle("MEDLEMSFORMULÄR");
 
-        Button toMenuButton = new Button();
-        toMenuButton.setText("Huvudmeny");
+        Button toMenuButton = new Button("Huvudmeny");
         toMenuButton.setPrefSize(115, 40);
-        //Nedan är lambda, kolla upp vad exakt som görs i bakgrunden.
         toMenuButton.setOnAction(e -> start(stage));
 
-        Label infoLabel = new Label("Fyll i uppgifter om medlem");
-        infoLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        Label headingLabel = new Label("Fyll i uppgifter om medlem");
+        headingLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
         Label firstNameLabel = new Label("Förnamn ");
         firstNameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -89,15 +86,13 @@ public class Main extends Application {
         TextField addressField1 = new TextField();
         TextField addressField2 = new TextField();
 
-        //BYT NAMN!!
-        Label utskriftSparaLabel = new Label();
-        utskriftSparaLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        Label savedStatusLabel = new Label();
+        savedStatusLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 
-        Label printMemberLabel = new Label();
-        printMemberLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+        Label savedMemberLabel = new Label();
+        savedMemberLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
-        Button saveButton = new Button();
-        saveButton.setText("Spara");
+        Button saveButton = new Button("Spara");
         saveButton.setPrefSize(115, 40);
         saveButton.setOnAction(e -> {
 
@@ -105,8 +100,8 @@ public class Main extends Application {
                     || phoneNrField.getText().isEmpty() || addressField1.getText().isEmpty()
                     || addressField2.getText().isEmpty()) {
 
-                utskriftSparaLabel.setText("Du har inte fyllt i alla fält!");
-                utskriftSparaLabel.setStyle("-fx-text-fill: red");
+                savedStatusLabel.setText("Du har inte fyllt i alla fält!");
+                savedStatusLabel.setStyle("-fx-text-fill: red");
                 return;
             }
 
@@ -119,12 +114,10 @@ public class Main extends Application {
 
             memberList.add(member);
 
-            utskriftSparaLabel.setStyle("-fx-text-fill: black");
-            utskriftSparaLabel.setText("Följande uppgifter är sparade:");
+            savedStatusLabel.setStyle("-fx-text-fill: black");
+            savedStatusLabel.setText("Följande uppgifter är sparade:");
 
-            //Om i konsolen och använder System.out så fattar alltså att ska anropa toString
-            //men inte om så här.
-            printMemberLabel.setText(member.toString());
+            savedMemberLabel.setText(member.toString());
 
             firstNameField.clear();
             lastNameField.clear();
@@ -133,8 +126,7 @@ public class Main extends Application {
             addressField2.clear();
         });
 
-        Button printAllButton = new Button();
-        printAllButton.setText("Medlemsregister");
+        Button printAllButton = new Button("Medlemsregister");
         printAllButton.setPrefSize(115, 40);
         printAllButton.setOnAction(e -> memberRegistryWindow(stage));
 
@@ -142,7 +134,7 @@ public class Main extends Application {
         gridPane.setVgap(15);
         gridPane.setStyle("-fx-padding: 30");
         gridPane.setAlignment(Pos.TOP_CENTER);
-        gridPane.add(infoLabel, 0, 0);
+        gridPane.add(headingLabel, 0, 0);
         gridPane.add(firstNameLabel, 0, 2);
         gridPane.add(firstNameField, 0, 3);
         gridPane.add(lastNameLabel, 0, 4);
@@ -154,8 +146,8 @@ public class Main extends Application {
         gridPane.add(addressLabel2, 0, 10);
         gridPane.add(addressField2, 0, 11);
         gridPane.add(saveButton, 0, 12);
-        gridPane.add(utskriftSparaLabel, 0, 14);
-        gridPane.add(printMemberLabel, 0, 15);
+        gridPane.add(savedStatusLabel, 0, 14);
+        gridPane.add(savedMemberLabel, 0, 15);
 
         HBox hBox = new HBox();
         hBox.setSpacing(32);
@@ -176,57 +168,56 @@ public class Main extends Application {
 
         stage.setTitle("MEDLEMSREGISTER");
 
-        //BYT NAMN VARIABLER
-        Label rubrikUtskriftssidaLabel = new Label("Registrerade medlemmar");
-        rubrikUtskriftssidaLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        rubrikUtskriftssidaLabel.setStyle("-fx-padding: 30");
-        rubrikUtskriftssidaLabel.setAlignment(Pos.CENTER);
+        Label headingLabel = new Label("Registrerade medlemmar");
+        headingLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        headingLabel.setStyle("-fx-padding: 30");
+        headingLabel.setAlignment(Pos.CENTER);
+
+         if (memberList.isEmpty()) {
+            headingLabel.setText("Saknas registrerade medlemmar");
+        }
 
         TextFlow textFlow = new TextFlow();
         textFlow.setLineSpacing(5);
 
-        //VARIABELNAMN
         for (Member member : memberList) {
 
-            Text fnLabel = new Text("Förnamn: ");
-            fnLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Text fnValue = new Text(member.getFirstName() + "\n");
-            fnValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+            Text firstNameTitle = new Text("Förnamn: ");
+            firstNameTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            Text firstNameValue = new Text(member.getFirstName() + "\n");
+            firstNameValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
-            Text lnLabel = new Text("Efternamn: ");
-            lnLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Text lnValue = new Text(member.getLastName() + "\n");
-            lnValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+            Text lastNameTitle = new Text("Efternamn: ");
+            lastNameTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            Text lastNameValue = new Text(member.getLastName() + "\n");
+            lastNameValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
-            Text phoneLabel = new Text("Telefonnummer: ");
-            phoneLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Text phoneValue = new Text(member.getPhoneNumber() + "\n");
-            phoneValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+            Text phoneNrTitle = new Text("Telefonnummer: ");
+            phoneNrTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            Text phoneNrValue = new Text(member.getPhoneNr() + "\n");
+            phoneNrValue.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
-            Text addr1Label = new Text("Adress: ");
-            addr1Label.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Text addr1Value = new Text(member.getAddressLine1() + "\n");
+            Text addressLine1Title = new Text("Adress: ");
+            addressLine1Title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            Text addressLine1Value = new Text(member.getAddressLine1() + "\n");
 
-            Text addr2Label = new Text("Postnummer och ort: ");
-            addr2Label.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            Text addr2Value = new Text(member.getAddressLine2() + "\n\n");
-            addr2Value.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
+            Text addressLine2Title = new Text("Postnummer och ort: ");
+            addressLine2Title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+            Text addressLine2Value = new Text(member.getAddressLine2() + "\n\n");
+            addressLine2Value.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 
-            textFlow.getChildren().addAll(fnLabel, fnValue, lnLabel, lnValue, phoneLabel,
-                    phoneValue, addr1Label, addr1Value, addr2Label, addr2Value
+            textFlow.getChildren().addAll(firstNameTitle, firstNameValue, lastNameTitle, lastNameValue, phoneNrTitle,
+                    phoneNrValue, addressLine1Title, addressLine1Value, addressLine2Title, addressLine2Value
             );
         }
 
-        //Skriv hur detta funkar - alltså vad en ScrollPane är.
         ScrollPane scrollPane = new ScrollPane(textFlow);
 
-        Button returnToForm = new Button();
-        returnToForm.setText("Medlemsformulär");
+        Button returnToForm = new Button("Medlemsformulär");
         returnToForm.setPrefSize(115, 40);
         returnToForm.setOnAction(e -> memberFormWindow(stage));
 
-        Button returnToMenu = new Button();
-        returnToMenu.setText("Huvudmeny");
+        Button returnToMenu = new Button("Huvudmeny");
         returnToMenu.setPrefSize(115, 40);
         returnToMenu.setOnAction(e -> start(stage));
 
@@ -237,7 +228,7 @@ public class Main extends Application {
         hBox.getChildren().addAll(returnToForm, returnToMenu);
 
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(rubrikUtskriftssidaLabel);
+        borderPane.setTop(headingLabel);
         borderPane.setCenter(scrollPane);
         borderPane.setBottom(hBox);
 
@@ -253,30 +244,24 @@ public class Main extends Application {
         Label timeLabel = new Label("Tid: ");
         timeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
-        //Denna label används också i timer-metoden.
-        //Skickar den till konstruktorn i Timer-klassen när skapar objekt nedan.
         Label showTimeLabel = new Label();
         showTimeLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 24));
 
         Timer timer = new Timer(showTimeLabel);
 
-        Button startTimerButton = new Button();
-        startTimerButton.setText("Start");
+        Button startTimerButton = new Button("Start");
         startTimerButton.setPrefSize(115, 40);
         startTimerButton.setOnAction(e -> timer.startTimer());
 
-        Button stopTimerButton = new Button();
-        stopTimerButton.setText("Stopp");
+        Button stopTimerButton = new Button("Stopp");
         stopTimerButton.setPrefSize(115, 40);
         stopTimerButton.setOnAction(e -> timer.stopTimer());
 
-        Button clearTimerButton = new Button();
-        clearTimerButton.setText("Nollställ");
+        Button clearTimerButton = new Button("Nollställ");
         clearTimerButton.setPrefSize(115, 40);
         clearTimerButton.setOnAction(e -> timer.clearTimer());
 
-        Button returnToMenu = new Button();
-        returnToMenu.setText("Huvudmeny");
+        Button returnToMenu = new Button("Huvudmeny");
         returnToMenu.setPrefSize(115, 40);
         returnToMenu.setOnAction(e -> start(stage));
 

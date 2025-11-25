@@ -4,17 +4,17 @@ public class Member {
 
     private String firstName;
     private String lastName;
-    private String phoneNumber;
+    private String phoneNr;
     private String addressLine1;
     private String addressLine2;
 
     public Member() {
     }
 
-    public Member(String firstName, String lastName, String phoneNumber, String addressLine1, String addressLine2) {
+    public Member(String firstName, String lastName, String phoneNr, String addressLine1, String addressLine2) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        this.phoneNr = phoneNr;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
     }
@@ -27,8 +27,8 @@ public class Member {
         return lastName;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhoneNr() {
+        return phoneNr;
     }
 
     public String getAddressLine1() {
@@ -47,8 +47,8 @@ public class Member {
         this.lastName = lastName;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNr(String phoneNr) {
+        this.phoneNr = phoneNr;
     }
 
     public void setAdressLine1(String adressLine1) {
@@ -61,6 +61,6 @@ public class Member {
 
     @Override
     public String toString()  {
-        return firstName + " " + lastName + "\n" + phoneNumber + "\n" + addressLine1 + "\n" + addressLine2;
+        return firstName + " " + lastName + "\n" + phoneNr + "\n" + addressLine1 + "\n" + addressLine2;
     }
 }
